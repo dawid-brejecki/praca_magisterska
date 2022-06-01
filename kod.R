@@ -1,5 +1,5 @@
 ### wczytanie danych
-dane=read.csv("C:\\Users\\user\\Desktop\\bazadanych.csv", header=TRUE, sep=';')
+dane=read.csv("bazadanych.csv", header=TRUE, sep=';')
 
 ### wczytanie bibliotek
 library(MASS)
@@ -18,7 +18,7 @@ library(e1071)
 scatterplotMatrix(dane)
 
 
-### losowanie indeksów wierszy zbioru ucz¹cego
+### losowanie indeksé—š wierszy zbioru uczé‰ego
 zbior.uczacy = sample(1:nrow(dane), nrow(dane)/1.5, F)
 zbior.uczacy
 
@@ -34,12 +34,12 @@ sum(diag(prop.table(ct)))
 partimat(factor(dane$kaliber)~dane$czas+dane$odl, data = dane, subset=zbior.uczacy
          ,method = "naiveBayes", plot.matrix = FALSE, 
          imageplot=TRUE, image.colors=c('cyan', 'deepskyblue','blue','darkblue'),
-         col.correct='black', col.wrong='red', main="Klasyfikacja przypadków",
-         prec=300, name=c('czas trwania (ms)','odleg³oœæ czujników (m)'), 
+         col.correct='black', col.wrong='red', main="Klasyfikacja przypadké—š",
+         prec=300, name=c('czas trwania (ms)','odlegé€™î°« czujniké—š (m)'), 
          print.err=0)
 
 
-### metoda wektoróW noœnych
+### metoda wektorè½‘ noî¯•ych
 
 svmfit=svm(factor(kaliber)~czas+odl, data = dane, subset = zbior.uczacy, kernel='linear',
            cost=10)
@@ -66,34 +66,34 @@ trein=cbind(dane$czas,dane$odl)
 trein
 da12=linDA(trein,c(dane$kaliber))
 da12
-### wyœwietlenie wykresów funkcji klasyfikuj¹cych
+### wyî¯ietlenie wykresé—š funkcji klasyfikujé‰ych
 plot(klasyfikatorLDA, col='blue', cex=1.1)
-title ("Wartoœci funkcji kanonicznych")
+title ("Wartoî¯Ši funkcji kanonicznych")
 dane$kaliber=as.factor(dane$kaliber)
 partimat(factor(dane$kaliber)~dane$czas+dane$odl, data = dane, subset=zbior.uczacy
          ,method = "naiveBayes", plot.matrix = FALSE, 
          imageplot=TRUE, image.colors=c('darkorange', 'yellow','green','brown'),
          col.correct='black', col.wrong='red', main=" ",
-         prec=300, name=c('czas trwania (ms)','odleg³oœæ czujników (m)'), 
+         prec=300, name=c('czas trwania (ms)','odlegé€™î°« czujniké—š (m)'), 
          print.err=0)
 
-### tabela klasyfikacyjna po u¿yciu zbioru testowego
+### tabela klasyfikacyjna po uç¯¡ciu zbioru testowego
 oceny = predict(klasyfikatorLDA, newdata=dane[-zbior.uczacy,2:3])
 ct=table(teoretyczne=oceny$class, empiryczne = dane[-zbior.uczacy,1])
 ct
 
-### wyœwietlenie procentu poprawnej klasyfikacji
+### wyî¯ietlenie procentu poprawnej klasyfikacji
 diag=(prop.table(ct,1))
 sum(diag(prop.table(ct)))
 
-### badanie wspó³liniowoœci zmiennych
+### badanie wspé¦§liniowoî¯Ši zmiennych
 vif(dane$czas,dane$odl)
 
-### wyœwietlenie rozk³adu zmiennych
+### wyî¯ietlenie rozkè±‰du zmiennych
 hist(dane[,2])
 hist(dane[,3])
 
-### test rozk³adu normalnego
+### test rozkè±‰du normalnego
 shapiro.test(dane[,1])
 shapiro.test(dane[,2])
 shapiro.test(dane[,3])
@@ -118,7 +118,7 @@ print(kowar4)
 res=boxM(dane[,2:3],dane[,1])
 res
 
-### wyœwietlenie macierzy korelacji
+### wyî¯ietlenie macierzy korelacji
 korelacja1=round(cor(dane1),1)
 ggcorrplot(korelacja1,lab = TRUE, title = "7,62 mm",col=c('red','darkblue','cyan'))
 korelacja2=round(cor(dane2),1)
@@ -140,15 +140,15 @@ dane$kaliber=as.factor(dane$kaliber)
 partimat(factor(dane$kaliber)~dane$czas+dane$odl, data = dane, subset=zbior.uczacy
          ,method = "qda", plot.matrix = FALSE, 
          imageplot=TRUE, image.colors=c('cyan', 'deepskyblue','blue','darkblue'),
-         col.correct='black', col.wrong='red', main="Klasyfikacja przypadków",
-         prec=300, name=c('czas trwania (ms)','odleg³oœæ czujników (m)'), 
+         col.correct='black', col.wrong='red', main="Klasyfikacja przypadké—š",
+         prec=300, name=c('czas trwania (ms)','odlegé€™î°« czujniké—š (m)'), 
          print.err=0)
 
 ### regresja logistyczna
 dane762=read.csv("C:\\Users\\user\\Desktop\\baza762.csv", header=TRUE, sep=';')
 glm.fit=glm(kaliber~odl+czas, data=dane762, subset = zbior.uczacy, family = binomial)
 summary(glm.fit)
-### test istotnoœci modelu
+### test istotnoî¯Ši modelu
 lrtest(glm.fit)
 ### walidacja na zbiorze testowym
 glm.probs=predict(glm.fit, newdata = dane762[-zbior.uczacy,], type = "response")
@@ -167,23 +167,4 @@ set.seed(1)
 TeoretyczneKNN=knn(train.X, test.X, train.kaliber, k=3)
 table(TeoretyczneKNN,EmpiryczneKNN)
 mean(TeoretyczneKNN==EmpiryczneKNN)
-
-
-
-
-
-
-
 contour(train.X, test.X, train.kaliber, levels=0.5, labels="", xlab="", ylab="", main= "15-nearest neighbour", axes=FALSE)
-
-
-
-library(klaR)
-install.packages("shiny")
-library(shiny)
-install.packages("klaR")
-install.packages("klaR", repos="http://cran.rstudio.com/", dependencies=TRUE)
-require(shiny)
-install.packages("biotools")
-devtools::install_github("spatialEpi")
-library(SpatialEpi)
